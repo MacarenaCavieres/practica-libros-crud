@@ -1,5 +1,6 @@
 import { Libro } from "../models/libro.model.js";
 import { nanoid } from "nanoid";
+import { handleErrors } from "../database/errors.js";
 
 const getLibros = async (req, res) => {
     try {
@@ -7,10 +8,8 @@ const getLibros = async (req, res) => {
         return res.json(data);
     } catch (error) {
         console.error("error===>", error);
-        if (error.code) {
-            return res.status(400).json({ ok: false, msg: error.message });
-        }
-        return res.status(500).json({ ok: false, msg: "Error de servidor" });
+        const { code, msg } = handleErrors(error);
+        return res.status(code).json({ ok: false, msg });
     }
 };
 
@@ -22,11 +21,9 @@ const getLibro = async (req, res) => {
         if (!data) return res.status(404).json({ ok: false, msg: "Libro no encontrado" });
         return res.json(data);
     } catch (error) {
-        console.log("Error===> ", error);
-        if (error.code) {
-            return res.status(400).json({ ok: false, msg: error.message });
-        }
-        return res.status(500).json({ ok: false, msg: "Error de servidor" });
+        console.error("error===>", error);
+        const { code, msg } = handleErrors(error);
+        return res.status(code).json({ ok: false, msg });
     }
 };
 
@@ -34,7 +31,8 @@ const postOne = async (req, res) => {
     try {
         const { nombre, precio, autor } = req.body;
 
-        if (!nombre || !precio || !autor) return "Todos los campos obligatorios";
+        if (!nombre || !precio || !autor)
+            return res.status(400).json({ ok: false, msg: "Campos obligatorios" });
 
         const newLibro = {
             id: nanoid(5),
@@ -47,17 +45,8 @@ const postOne = async (req, res) => {
         return res.json(data);
     } catch (error) {
         console.error("error===>", error);
-        if (error.code) {
-            switch (error.code) {
-                case "23502":
-                    return res.status(400).json({ ok: false, msg: "Campos obligatorios" });
-                case "22P02":
-                    return res.status(400).json({ ok: false, msg: "Campos no cumple el formato" });
-                default:
-                    return res.status(400).json({ ok: false, msg: "Error DB desconocido" });
-            }
-        }
-        return res.status(500).json({ ok: false, msg: "error de servidor" });
+        const { code, msg } = handleErrors(error);
+        return res.status(code).json({ ok: false, msg });
     }
 };
 
@@ -66,15 +55,14 @@ const deleteOne = async (req, res) => {
         const { id } = req.params;
         const data = await Libro.remove(id);
 
-        if (!data) return "Libro no encontrado";
+        if (!data)
+            return res.status(400).json({ ok: false, msg: "Solicitud incorrecta, libro no encontrado" });
 
         return res.json(data);
     } catch (error) {
-        console.log("Error===> ", error);
-        if (error.code) {
-            return res.status(400).json({ ok: false, msg: error.message });
-        }
-        return res.status(500).json({ ok: false, msg: "Error de servidor" });
+        console.error("error===>", error);
+        const { code, msg } = handleErrors(error);
+        return res.status(code).json({ ok: false, msg });
     }
 };
 
@@ -84,15 +72,14 @@ const updateOne = async (req, res) => {
         const { nombre, precio, autor } = req.body;
         const data = await Libro.update(nombre, precio, autor, id);
 
-        if (!data) return "Libro no encontrado";
+        if (!data)
+            return res.status(400).json({ ok: false, msg: "Solicitud incorrecta, libro no encontrado" });
 
         return res.json(data);
     } catch (error) {
-        console.log("Error===> ", error);
-        if (error.code) {
-            return res.status(400).json({ ok: false, msg: error.message });
-        }
-        return res.status(500).json({ ok: false, msg: "Error de servidor" });
+        console.error("error===>", error);
+        const { code, msg } = handleErrors(error);
+        return res.status(code).json({ ok: false, msg });
     }
 };
 

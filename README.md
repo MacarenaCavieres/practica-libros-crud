@@ -16,6 +16,12 @@ Levantar servidor
 npm run start
 ```
 
+Para ver parte frontend
+
+```sh
+http://localhost:3000
+```
+
 ## Tablas creadas en:
 
 database/queries.sql
