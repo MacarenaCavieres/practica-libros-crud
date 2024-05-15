@@ -29,7 +29,7 @@ const getLibro = async (req, res) => {
 
 const postOne = async (req, res) => {
     try {
-        const { nombre, precio, autor } = req.body;
+        const { nombre, precio, autor, stock } = req.body;
 
         if (!nombre || !precio || !autor)
             return res.status(400).json({ ok: false, msg: "Campos obligatorios" });
@@ -39,10 +39,11 @@ const postOne = async (req, res) => {
             nombre,
             precio,
             autor,
+            stock,
         };
 
         const data = await Libro.create(newLibro);
-        return res.json(data);
+        return res.status(201).json(data);
     } catch (error) {
         console.error("error===>", error);
         const { code, msg } = handleErrors(error);
@@ -69,8 +70,8 @@ const deleteOne = async (req, res) => {
 const updateOne = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, precio, autor } = req.body;
-        const data = await Libro.update(nombre, precio, autor, id);
+        const { nombre, precio, autor, stock } = req.body;
+        const data = await Libro.update(nombre, precio, autor, stock, id);
 
         if (!data)
             return res.status(400).json({ ok: false, msg: "Solicitud incorrecta, libro no encontrado" });

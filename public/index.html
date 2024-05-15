@@ -15,28 +15,22 @@
         <h1 class="text-center mt-3">Formulario Libros</h1>
 
         <section class="container d-flex justify-content-center mt-4">
-            <form id="form" class="w-50">
+            <form id="form" class="w-75">
                 <label for="nombre" class="form-label">Ingrese libro</label>
                 <input class="form-control mb-3" type="text" name="nombre" placeholder="Libro" required />
                 <label for="precio" class="form-label">Ingrese precio</label>
                 <input class="form-control mb-3" type="number" name="precio" placeholder="Precio" required />
                 <label for="autor" class="form-label">Ingrese autor</label>
                 <input class="form-control mb-3" type="text" name="autor" placeholder="Autor" required />
+                <label for="autor" class="form-label">Ingrese stock</label>
+                <input class="form-control mb-3" type="number" name="stock" placeholder="Stock" />
                 <button type="submit" class="btn btn-primary">Agregar</button>
             </form>
         </section>
         <h2 class="text-center mt-3">Libros</h2>
 
         <section class="container d-flex justify-content-center my-4">
-            <ul class="list-group w-50" id="listaLibros">
-                <!-- <li class="list-group-item" id="libro">
-                    <div class="mb-2">Nombre: Autor: Precio:</div>
-                    <div>
-                        <button type="button" class="btn btn-warning">Editar</button>
-                        <button type="button" class="btn btn-danger">Eliminar</button>
-                    </div>
-                </li> -->
-            </ul>
+            <ul class="list-group w-75" id="listaLibros"></ul>
         </section>
 
         <div
@@ -83,6 +77,8 @@
                                 placeholder="Autor"
                                 required
                             />
+                            <label for="autor" class="form-label">Ingrese stock</label>
+                            <input class="form-control mb-3" type="number" name="stock" placeholder="Stock" />
                             <button type="submit" class="btn btn-warning edit-btn">Editar</button>
                         </form>
                     </div>

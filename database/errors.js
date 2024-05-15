@@ -16,6 +16,17 @@ export const handleErrors = (error) => {
                     code: 400,
                     msg: "dato no compatible",
                 };
+            case "23514":
+                return {
+                    code: 400,
+                    msg: "Libro sin stock",
+                };
+            case "42601":
+                return {
+                    code: 400,
+                    msg: "Error de sintaxis",
+                };
+
             default:
                 return {
                     code: 500,
