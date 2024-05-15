@@ -41,6 +41,13 @@ const createTrans = async (cantidad = 1, libro_id) => {
     }
 };
 
+const getAll = async () => {
+    const { rows } = await pool.query("select * from pedidos");
+
+    return rows;
+};
+
 export const Pedido = {
     createTrans,
+    getAll,
 };

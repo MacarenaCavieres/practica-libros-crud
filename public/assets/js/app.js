@@ -1,4 +1,5 @@
 const listaLibros = document.querySelector("#listaLibros");
+const listaPedidos = document.querySelector("#listaPedidos");
 const form = document.querySelector("#form");
 const formEdit = document.querySelector("#formEdit");
 
@@ -51,18 +52,6 @@ document.addEventListener("click", (e) => {
         buyBook(e.target.dataset.id);
     }
 });
-
-const buyBook = async (id) => {
-    try {
-        await axios.post("/api/v1/pedidos", {
-            libro_id: id,
-        });
-
-        getBooks();
-    } catch (error) {
-        console.error("Error ====> ", error);
-    }
-};
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -166,3 +155,35 @@ const editBook = async (id, newBook) => {
 };
 
 getBooks();
+
+const buyBook = async (id) => {
+    try {
+        await axios.post("/api/v1/pedidos", {
+            libro_id: id,
+        });
+
+        getBooks();
+        getOrders();
+    } catch (error) {
+        console.error("Error ====> ", error);
+    }
+};
+
+const getOrders = async () => {
+    try {
+        const { data: pedidos } = await axios.get("/api/v1/pedidos");
+
+        listaPedidos.textContent = "";
+        pedidos.forEach((item) => {
+            const li = document.createElement("li");
+            li.classList.add("list-group-item");
+            li.textContent = `Cantidad: ${item.cantidad} - Libro_id: ${item.libro_id}`;
+
+            listaPedidos.appendChild(li);
+        });
+    } catch (error) {
+        console.error("Error ====> ", error);
+    }
+};
+
+getOrders();
